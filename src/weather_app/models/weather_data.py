@@ -1,15 +1,31 @@
+"""Data models for geocoding and weather API responses."""
+
 from dataclasses import dataclass
 from typing import Optional
 
 
 @dataclass
 class GeocodingResult:
+    """A resolved geographic location returned by the geocoding API.
+
+    Attributes:
+        name: Display name of the city or place.
+        latitude: Geographic latitude in decimal degrees (-90 to 90).
+        longitude: Geographic longitude in decimal degrees (-180 to 180).
+        country: Optional country name associated with the location.
+    """
+
     name: str
     latitude: float
     longitude: float
     country: Optional[str] = None
 
     def __post_init__(self):
+        """Validate field values after dataclass initialization.
+
+        Raises:
+            ValueError: If name is empty, or if latitude/longitude are out of range.
+        """
         if not isinstance(self.name, str) or not self.name:
             raise ValueError("name must be a non-empty string")
         if (
@@ -26,6 +42,19 @@ class GeocodingResult:
 
 @dataclass
 class WeatherData:
+    """Current weather conditions for a specific location.
+
+    Attributes:
+        temperature_c: Air temperature in degrees Celsius.
+        humidity: Relative humidity as a percentage (0–100).
+        wind_speed: Wind speed in km/h (non-negative).
+        wind_direction: Wind direction in degrees (0–360).
+        weather_code: WMO weather interpretation code (0–99).
+        location_name: Human-readable name of the location.
+        latitude: Geographic latitude in decimal degrees (-90 to 90).
+        longitude: Geographic longitude in decimal degrees (-180 to 180).
+    """
+
     temperature_c: float
     humidity: float
     wind_speed: float
@@ -36,6 +65,11 @@ class WeatherData:
     longitude: float
 
     def __post_init__(self):
+        """Validate field values after dataclass initialization.
+
+        Raises:
+            ValueError: If any field value is outside its valid range or type.
+        """
         if not isinstance(self.temperature_c, (int, float)):
             raise ValueError("temperature_c must be a number")
         if not isinstance(self.humidity, (int, float)) or not 0 <= self.humidity <= 100:

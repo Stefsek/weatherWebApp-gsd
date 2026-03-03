@@ -1,3 +1,5 @@
+"""City geocoding via the Open-Meteo Geocoding API."""
+
 import requests
 from typing import Optional
 
@@ -17,9 +19,19 @@ class NetworkError(Exception):
 
 
 def search_city(city_name: str) -> Optional[GeocodingResult]:
-    """
-    Search for a city using Open-Meteo Geocoding API.
-    Returns GeocodingResult if found, None if not found.
+    """Search for a city by name using the Open-Meteo Geocoding API.
+
+    Args:
+        city_name: The city name to search for. Must be non-empty after
+            stripping whitespace.
+
+    Returns:
+        A GeocodingResult with the top match's coordinates and name, or
+        None if no results were found.
+
+    Raises:
+        GeocodingError: If city_name is empty or blank.
+        NetworkError: If the HTTP request fails due to a connectivity issue.
     """
     if not city_name or not city_name.strip():
         raise GeocodingError("City name cannot be empty")

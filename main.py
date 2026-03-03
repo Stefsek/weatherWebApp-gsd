@@ -1,3 +1,12 @@
+"""Streamlit weather application entry point.
+
+Provides the main UI for searching cities and displaying current weather
+conditions including temperature, humidity, wind speed, and an interactive map.
+
+Typical usage example:
+
+  streamlit run main.py
+"""
 import streamlit as st
 
 from streamlit_folium import st_folium
@@ -23,7 +32,14 @@ def init_session_state() -> None:
 
 
 def handle_city_search(city: str) -> None:
-    """Handle city search and weather fetch."""
+    """Search for a city and fetch its current weather data.
+
+    Geocodes the city name, then fetches weather data, storing results in
+    Streamlit session state. Sets error_message on failure.
+
+    Args:
+        city: The city name to search for.
+    """
     if not city or not city.strip():
         return
 
@@ -69,7 +85,11 @@ def handle_city_search(city: str) -> None:
 
 
 def display_weather(weather: WeatherData) -> None:
-    """Display weather information."""
+    """Render weather data as styled HTML cards and an interactive map.
+
+    Args:
+        weather: The WeatherData object containing current conditions.
+    """
     unit = st.session_state["temperature_unit"]
 
     # Main weather card - City, Temp, Condition
@@ -135,7 +155,13 @@ def display_weather(weather: WeatherData) -> None:
 
 
 def display_map(latitude: float, longitude: float, location_name: str) -> None:
-    """Display interactive map with city marker."""
+    """Render a Folium map centered on the given coordinates.
+
+    Args:
+        latitude: Geographic latitude of the location.
+        longitude: Geographic longitude of the location.
+        location_name: Display name used as the map marker popup label.
+    """
     # Create map centered on location
     m = folium.Map(
         location=[latitude, longitude],

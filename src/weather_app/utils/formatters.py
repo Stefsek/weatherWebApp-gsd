@@ -1,3 +1,9 @@
+"""Formatting utilities for weather display values.
+
+Provides functions to convert raw API values (WMO weather codes and wind
+direction degrees) into human-readable strings.
+"""
+
 WMO_WEATHER_CODES = {
     0: "Clear",
     1: "Mainly Clear",
@@ -31,12 +37,28 @@ WMO_WEATHER_CODES = {
 
 
 def format_weather_code(code: int) -> str:
-    """Return human-readable text for WMO weather code."""
+    """Return human-readable text for a WMO weather interpretation code.
+
+    Args:
+        code: WMO weather interpretation code from the Open-Meteo API.
+
+    Returns:
+        A descriptive weather condition string, or "Unknown (<code>)" if
+        the code is not recognized.
+    """
     return WMO_WEATHER_CODES.get(code, f"Unknown ({code})")
 
 
 def format_wind_direction(degrees: int) -> str:
-    """Convert wind direction degrees to cardinal direction."""
+    """Convert wind direction in degrees to a 16-point cardinal label.
+
+    Args:
+        degrees: Wind direction in degrees (0–360), where 0/360 is North.
+
+    Returns:
+        A cardinal or intercardinal direction string (e.g., "NNE"), or
+        "Unknown" if the value is outside the valid range.
+    """
     if not 0 <= degrees <= 360:
         return "Unknown"
 

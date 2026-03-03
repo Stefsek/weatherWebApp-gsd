@@ -1,3 +1,5 @@
+"""Weather data retrieval from the Open-Meteo forecast API."""
+
 import requests
 from typing import Optional
 
@@ -14,9 +16,21 @@ class WeatherAPIError(Exception):
 def get_current_weather(
     lat: float, lon: float, location_name: str = "Unknown"
 ) -> WeatherData:
-    """
-    Fetch current weather from Open-Meteo API.
-    Uses Streamlit's cache_data for caching.
+    """Fetch current weather conditions from the Open-Meteo API.
+
+    Args:
+        lat: Geographic latitude in decimal degrees (-90 to 90).
+        lon: Geographic longitude in decimal degrees (-180 to 180).
+        location_name: Human-readable name attached to the returned data.
+            Defaults to "Unknown".
+
+    Returns:
+        A WeatherData instance populated with the current conditions.
+
+    Raises:
+        WeatherAPIError: If lat/lon are out of range or the API response is
+            missing expected fields.
+        NetworkError: If the HTTP request fails due to a connectivity issue.
     """
     if not -90 <= lat <= 90:
         raise WeatherAPIError("Latitude must be between -90 and 90")
@@ -59,9 +73,22 @@ def get_current_weather(
 def get_cached_weather(
     lat: float, lon: float, location_name: str = "Unknown", ttl: int = 300
 ):
-    """
-    Get weather with caching wrapper.
-    Note: This uses Streamlit's cache_data - must be called within a Streamlit app.
+    """Fetch weather with Streamlit's cache_data decorator applied.
+
+    Wraps get_current_weather in a dynamically created cached function so
+    repeated calls with the same coordinates are served from cache.
+
+    Note: Must be called within a running Streamlit application.
+
+    Args:
+        lat: Geographic latitude in decimal degrees (-90 to 90).
+        lon: Geographic longitude in decimal degrees (-180 to 180).
+        location_name: Human-readable name attached to the returned data.
+            Defaults to "Unknown".
+        ttl: Cache time-to-live in seconds. Defaults to 300.
+
+    Returns:
+        A WeatherData instance for the given coordinates.
     """
     import streamlit as st
 
