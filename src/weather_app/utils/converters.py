@@ -1,4 +1,8 @@
-"""Temperature conversion and formatting utilities."""
+"""Temperature conversion and formatting utilities.
+
+Provides functions to convert temperatures between Celsius and Fahrenheit,
+and format them for display with degree symbols.
+"""
 
 
 def celsius_to_fahrenheit(celsius: float) -> float:
