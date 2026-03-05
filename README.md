@@ -1,8 +1,10 @@
 # ☁️ Weather App
 
+Built with [opencode](https://opencode.ai) using the minimax-m2.5 model.
+
 A clean, dark-themed weather app built with Streamlit. Search any city and instantly see real-time temperature, conditions, humidity, wind speed & direction, and an interactive map — all powered by the free [Open-Meteo](https://open-meteo.com) API (no API key required).
 
-Built in a single day (~75 min of execution) using the [Get Shit Done](https://github.com/gsd-build/get-shit-done) workflow for Claude Code.
+Built in a single day (~75 min of execution) using the [Get Shit Done](https://github.com/gsd-build/get-shit-done) workflow.
 
 ---
 
